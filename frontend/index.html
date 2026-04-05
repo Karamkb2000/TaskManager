@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>Task Manager</h1>
+        <p class="subtitle">Running on 5 Docker containers</p>
+      </div>
+      <div class="arch-pills">
+        <span class="pill nginx">Nginx</span>
+        <span class="pill-arrow">→</span>
+        <span class="pill frontend">Frontend</span>
+        <span class="pill-arrow">+</span>
+        <span class="pill backend">Flask API</span>
+        <span class="pill-arrow">→</span>
+        <span class="pill postgres">Postgres</span>
+        <span class="pill-arrow">+</span>
+        <span class="pill redis">Redis</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats-bar" id="stats-bar">
+      <div class="stat"><span class="label">Total</span><span class="value" id="s-total">—</span></div>
+      <div class="stat"><span class="label">Done</span><span class="value" id="s-done">—</span></div>
+      <div class="stat"><span class="label">Pending</span><span class="value" id="s-pending">—</span></div>
+      <div class="stat"><span class="label">Cache hits</span><span class="value" id="s-hits">—</span></div>
+      <div class="stat"><span class="label">Cache misses</span><span class="value" id="s-misses">—</span></div>
+    </section>
+
+    <section class="form-section">
+      <h2>Add a Task</h2>
+      <form id="task-form">
+        <input type="text" id="title" placeholder="Task title" required />
+        <input type="text" id="description" placeholder="Description (optional)" />
+        <button type="submit">Add Task</button>
+      </form>
+    </section>
+
+    <section class="tasks-section">
+      <div class="tasks-header">
+        <h2>Tasks</h2>
+        <span id="cache-badge" class="badge"></span>
+      </div>
+      <div id="task-list">
+        <p class="loading">Loading tasks...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
