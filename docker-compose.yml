@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - frontend-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    networks:
+      - frontend-network
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=taskdb
+      - DB_USER=admin
+      - DB_PASSWORD=secret
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - frontend-network
+      - backend-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=taskdb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend-network
+    restart: unless-stopped
+
+#  frontend-network:   nginx -- fontend -- backend
+
+#  backend-network:   backend -- postgres -- redis
+
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
