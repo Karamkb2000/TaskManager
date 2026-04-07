@@ -18,16 +18,16 @@ async function fetchStats() {
     const res = await fetch(`${API}/stats`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const d = await res.json();
-    document.getElementById('s-total').textContent   = d.total_tasks;
-    document.getElementById('s-done').textContent    = d.done_tasks;
+    document.getElementById('s-total').textContent = d.total_tasks;
+    document.getElementById('s-done').textContent = d.done_tasks;
     document.getElementById('s-pending').textContent = d.pending_tasks;
-    document.getElementById('s-hits').textContent    = d.redis_hits;
-    document.getElementById('s-misses').textContent  = d.redis_misses;
+    document.getElementById('s-hits').textContent = d.redis_hits;
+    document.getElementById('s-misses').textContent = d.redis_misses;
   } catch (e) {
     // stats are non-critical, fail silently
   }
 }
-
+// add comment to test 
 function updateCacheBadge(source) {
   const badge = document.getElementById('cache-badge');
   if (source === 'cache') {
@@ -57,8 +57,8 @@ function renderTasks(tasks) {
       <div class="task-body">
         <div class="task-title">${escapeHtml(task.title)}</div>
         ${task.description
-          ? `<div class="task-desc">${escapeHtml(task.description)}</div>`
-          : ''}
+      ? `<div class="task-desc">${escapeHtml(task.description)}</div>`
+      : ''}
         <div class="task-meta">Created: ${formatDate(task.created_at)}</div>
       </div>
       <button
@@ -96,10 +96,10 @@ async function deleteTask(id) {
 document.getElementById('task-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const titleInput = document.getElementById('title');
-  const descInput  = document.getElementById('description');
-  const btn        = e.target.querySelector('button');
+  const descInput = document.getElementById('description');
+  const btn = e.target.querySelector('button');
 
-  const title       = titleInput.value.trim();
+  const title = titleInput.value.trim();
   const description = descInput.value.trim();
   if (!title) return;
 
@@ -114,7 +114,7 @@ document.getElementById('task-form').addEventListener('submit', async (e) => {
     });
     if (!res.ok) throw new Error();
     titleInput.value = '';
-    descInput.value  = '';
+    descInput.value = '';
     fetchTasks();
     fetchStats();
   } catch (e) {
@@ -127,10 +127,10 @@ document.getElementById('task-form').addEventListener('submit', async (e) => {
 
 function escapeHtml(str) {
   return String(str)
-    .replace(/&/g,  '&amp;')
-    .replace(/</g,  '&lt;')
-    .replace(/>/g,  '&gt;')
-    .replace(/"/g,  '&quot;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function formatDate(str) {
