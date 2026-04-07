@@ -104,7 +104,7 @@ jobs:
           
       - name: Run ESLint
         working-directory: frontend
-        run: npx eslint app.js --no-eslintrc --config .eslintrc.json
+        run: npx eslint app.js
 
   docker-smoke-test:
     runs-on: ubuntu-latest
