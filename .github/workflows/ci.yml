@@ -121,11 +121,9 @@ jobs:
         
       - name: Test health endpoints
         run: |
-          # Wait for backend to be ready (it has a retry loop in app.py script but let's be safe)
-          sleep 10
-          # We'll check the health through the nginx service or backend port directly
-          # Since it's github runner we can use curl on localhost ports mapping in docker-compose
-          curl -f http://localhost:5000/api/health || (docker compose logs backend && exit 1)
+          # Wait for backend to be ready via Nginx proxy (which maps port 80)
+          sleep 15
+          curl -f http://localhost:80/api/health || (docker compose logs && exit 1)
           
       - name: Cleanup
         run: docker compose down
