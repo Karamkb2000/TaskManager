@@ -26,10 +26,10 @@ jobs:
           # Lowercase the repository name for Docker tagging
           REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           
-          # Build and Tag
-          docker build -t ghcr.io/$REPO_LOWER/backend:latest ./backend
-          docker build -t ghcr.io/$REPO_LOWER/frontend:latest ./frontend
-          docker build -t ghcr.io/$REPO_LOWER/nginx:latest ./nginx
+          # Build and Tag (Standardizing to build from root context)
+          docker build -t ghcr.io/$REPO_LOWER/backend:latest -f backend/Dockerfile ./backend
+          docker build -t ghcr.io/$REPO_LOWER/frontend:latest -f frontend/Dockerfile ./frontend
+          docker build -t ghcr.io/$REPO_LOWER/nginx:latest -f nginx/Dockerfile .
           
           # Push to GHCR
           docker push ghcr.io/$REPO_LOWER/backend:latest
